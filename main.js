@@ -63,6 +63,10 @@ const pies = [
   },
 ];
 
+let filtered = false;
+
+
+
 const printToDom = (divId, textToPrint) => {
   const selectedDiv = document.querySelector(divId);
   selectedDiv.innerHTML = textToPrint;
@@ -115,12 +119,16 @@ const handleButtonClick = (e) => {
   }
 
   if (buttonId === "All") {
+    //PRINT ALL THE PIES
+    filtered = false;
     pieBuilder(pies);
   } else {
+    filtered = true;
     pieBuilder(selectedPies);
   }
-};
 
+  console.log(filtered);
+};
 
 // C in CRUD, for Create !!!
 const getFormInfo = (e) => {
@@ -154,7 +162,20 @@ const getFormInfo = (e) => {
   pieBuilder(pies);
 
   // Resetting the form fields
-  document.querySelector('form').reset();
+  document.querySelector("form").reset();
+};
+
+// D in CRUD: Delete the pies
+const deletePie = (e) => {
+  const targetType = e.target.type;
+  const targetId = e.target.id;
+
+  if (targetType === "button") {
+    // DO SOMETHING
+    pies.splice(targetId, 1);
+  }
+
+  pieBuilder(pies);
 };
 
 const buttonEvents = () => {
@@ -164,13 +185,18 @@ const buttonEvents = () => {
   // const trinityBtn = document.querySelector('#Trinity');
 
   // allBtn.addEventListener('click', handleButtonClick);
-
+// The following replaces the above commented out code by using chaining...
   document.querySelector("#All").addEventListener("click", handleButtonClick);
   document.querySelector("#Doc").addEventListener("click", handleButtonClick);
   document.querySelector("#Aja").addEventListener("click", handleButtonClick);
   document
     .querySelector("#Trinity")
     .addEventListener("click", handleButtonClick);
+
+  // Targeting the Delete Button
+  document.querySelector("#pies").addEventListener("click", deletePie);
+
+  // Targeting the Submit button
   document.querySelector("form").addEventListener("submit", getFormInfo);
 };
 
